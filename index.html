@@ -95,7 +95,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
 // ============================================================
 // ★ここにGASのデプロイURLを設定してください
 // ============================================================
-var GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyIhSi6eMvI8VWNfVRB7Ovusp4--cMjP6OZ1gN9PozHniobGsufDEY2b5lYtf_GSiT5Ow/exec';
+var GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwNFBcyi68OkQbg1CUb4f6w-oy3gqiVX_6cJcW5jQgq7AML1O50Ey3yOdLULTo8I7f2OA/exec';
 
 var RELOAD_MINUTES = 5;
 
@@ -208,14 +208,34 @@ function renderData(data) {
 }
 
 function fetchData() {
-  fetch(GAS_API_URL)
-    .then(function(res){ return res.json(); })
-    .then(function(data){ renderData(data); })
-    .catch(function(err){
-      document.getElementById('mainContent').innerHTML =
-        '<div class="error-msg">通信エラーが発生しました。ネットワーク接続を確認してください。</div>';
-      console.error(err);
-    });
+  // JSONP方式でCORSを回避
+  var callbackName = 'wbgtCallback_' + Date.now();
+  var script = document.createElement('script');
+  var timeout = setTimeout(function() {
+    document.getElementById('mainContent').innerHTML =
+      '<div class="error-msg">データの取得がタイムアウトしました。しばらくお待ちください。</div>';
+    delete window[callbackName];
+    if (script.parentNode) script.parentNode.removeChild(script);
+  }, 15000);
+
+  window[callbackName] = function(data) {
+    clearTimeout(timeout);
+    delete window[callbackName];
+    if (script.parentNode) script.parentNode.removeChild(script);
+    renderData(data);
+  };
+
+  var url = GAS_API_URL
+    + (GAS_API_URL.indexOf('?') >= 0 ? '&' : '?')
+    + 'callback=' + callbackName;
+  script.src = url;
+  script.onerror = function() {
+    clearTimeout(timeout);
+    delete window[callbackName];
+    document.getElementById('mainContent').innerHTML =
+      '<div class="error-msg">通信エラーが発生しました。GASのデプロイURLを確認してください。</div>';
+  };
+  document.head.appendChild(script);
 }
 
 // 初回読み込み
