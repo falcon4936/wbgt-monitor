@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AIC京都ファーム　熱中症警戒</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:#F0EEE9;color:#1a1a1a}
+.container{width:100%;padding:8px}
+.header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border-radius:10px;margin-bottom:8px;border:0.5px solid #ddd}
+.header-title{font-size:15px;font-weight:500;color:#1a1a1a}
+.header-sub{font-size:12px;color:#888;margin-top:2px}
+.alert-card{border-radius:10px;padding:14px 16px;margin-bottom:8px;transition:background 0.3s}
+.alert-label{font-size:12px;font-weight:500;letter-spacing:0.04em;margin-bottom:4px}
+.alert-level{font-size:24px;font-weight:500;margin-bottom:6px}
+.wbgt-row{display:flex;align-items:baseline;gap:5px;margin-bottom:2px}
+.wbgt-val{font-size:68px;font-weight:500;line-height:1}
+.wbgt-unit{font-size:20px;font-weight:500}
+.wbgt-sublabel{font-size:13px;margin-bottom:6px}
+.alert-action{font-size:15px;font-weight:500;margin-bottom:8px}
+.updated{font-size:12px;opacity:0.75}
+.metrics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
+.metric-card{background:#fff;border:0.5px solid #ddd;border-radius:10px;padding:10px 12px}
+.metric-label{font-size:12px;color:#888;margin-bottom:4px}
+.metric-val{font-size:26px;font-weight:500;color:#1a1a1a;line-height:1.2}
+.metric-unit{font-size:13px;color:#888;margin-left:2px}
+.chart-card{background:#fff;border:0.5px solid #ddd;border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.chart-title{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:2px}
+.chart-date{font-size:11px;color:#888;margin-bottom:10px}
+.chart-wrap{position:relative;height:150px}
+.level-guide{background:#fff;border:0.5px solid #ddd;border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.level-guide-title{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:8px}
+.level-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid #eee}
+.level-row:last-child{border-bottom:none;padding-bottom:0}
+.level-badge{font-size:13px;font-weight:500;padding:4px 8px;border-radius:6px;min-width:76px;text-align:center;white-space:nowrap}
+.level-range{font-size:14px;color:#555;flex:1}
+.level-action-text{font-size:12px;color:#888;text-align:right;white-space:nowrap}
+.footer{font-size:11px;color:#aaa;text-align:center;padding:6px 0 12px}
+.loading{text-align:center;padding:40px;color:#888;font-size:14px}
+.error-msg{background:#FCEBEB;border:0.5px solid #F09595;border-radius:10px;padding:14px 16px;margin-bottom:8px;font-size:13px;color:#A32D2D}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div>
+      <div class="header-title">AIC京都ファーム　熱中症警戒</div>
+      <div class="header-sub" id="headerSub">読み込み中...</div>
+    </div>
+    <span style="font-size:24px">🌾</span>
+  </div>
+
+  <div id="mainContent">
+    <div class="loading">データを取得中...</div>
+  </div>
+
+  <div class="level-guide">
+    <div class="level-guide-title">警戒レベルの目安</div>
+    <div class="level-row">
+      <span class="level-badge" style="background:#FCEBEB;color:#A32D2D">🔴 危険</span>
+      <span class="level-range">31℃ 以上</span>
+      <span class="level-action-text">作業中止</span>
+    </div>
+    <div class="level-row">
+      <span class="level-badge" style="background:#FAECE7;color:#993C1D">🟠 厳重警戒</span>
+      <span class="level-range">28〜31℃</span>
+      <span class="level-action-text">激しい作業禁止</span>
+    </div>
+    <div class="level-row">
+      <span class="level-badge" style="background:#FAEEDA;color:#633806">🟡 警戒</span>
+      <span class="level-range">25〜28℃</span>
+      <span class="level-action-text">積極的に休憩</span>
+    </div>
+    <div class="level-row">
+      <span class="level-badge" style="background:#EAF3DE;color:#3B6D11">🟢 注意</span>
+      <span class="level-range">21〜25℃</span>
+      <span class="level-action-text">水分補給を</span>
+    </div>
+    <div class="level-row">
+      <span class="level-badge" style="background:#F1EFE8;color:#5F5E5A">⚪ ほぼ安全</span>
+      <span class="level-range">21℃ 未満</span>
+      <span class="level-action-text">通常作業可</span>
+    </div>
+  </div>
+
+  <div class="footer">データ取得元: AIC京都ファーム 気象センサー</div>
+
+</div>
+
+<script>
+// ============================================================
+// ★ここにGASのデプロイURLを設定してください
+// ============================================================
+var GAS_API_URL = 'YOUR_GAS_DEPLOY_URL';
+
+var RELOAD_MINUTES = 5;
+
+var LEVEL_STYLE = {
+  danger:  { bg:'#FCEBEB', border:'#F09595', labelColor:'#A32D2D', valColor:'#501313', icon:'🔴', label:'危険',     action:'作業を中止し、涼しい場所へ' },
+  severe:  { bg:'#FAECE7', border:'#F0997B', labelColor:'#993C1D', valColor:'#4A1B0C', icon:'🟠', label:'厳重警戒', action:'激しい作業は中止。こまめに休憩を' },
+  caution: { bg:'#FAEEDA', border:'#EF9F27', labelColor:'#633806', valColor:'#412402', icon:'🟡', label:'警戒',     action:'積極的に休憩し、水分補給を' },
+  watch:   { bg:'#EAF3DE', border:'#97C459', labelColor:'#3B6D11', valColor:'#173404', icon:'🟢', label:'注意',     action:'水分・塩分を定期的に補給' },
+  safe:    { bg:'#F1EFE8', border:'#D3D1C7', labelColor:'#5F5E5A', valColor:'#2C2C2A', icon:'⚪', label:'ほぼ安全',  action:'通常の作業が可能' },
+};
+
+function levelToKey(str) {
+  if (!str) return 'safe';
+  if (str.indexOf('危険')  !== -1) return 'danger';
+  if (str.indexOf('厳重')  !== -1) return 'severe';
+  if (str.indexOf('警戒')  !== -1) return 'caution';
+  if (str.indexOf('注意')  !== -1) return 'watch';
+  return 'safe';
+}
+
+var chartInstance = null;
+
+function renderData(data) {
+  var content = document.getElementById('mainContent');
+  var headerSub = document.getElementById('headerSub');
+
+  if (data.status !== 'ok' || !data.latest) {
+    content.innerHTML = '<div class="error-msg">データを取得できませんでした。しばらくお待ちください。</div>';
+    return;
+  }
+
+  var l = data.latest;
+  var key = levelToKey(l.level);
+  var st = LEVEL_STYLE[key];
+
+  headerSub.textContent = '5分ごとに自動更新';
+
+  var wbgt  = l.wbgt  !== null ? l.wbgt  : '--';
+  var temp  = l.temp  !== null ? l.temp  : '--';
+  var humid = l.humid !== null ? l.humid : '--';
+  var solar = l.solar !== null ? l.solar : '--';
+  var wind  = l.wind  !== null ? l.wind  : '--';
+
+  content.innerHTML =
+    '<div class="alert-card" style="background:' + st.bg + ';border:0.5px solid ' + st.border + '">' +
+      '<div class="alert-label" style="color:' + st.labelColor + '">現在の警戒レベル</div>' +
+      '<div class="alert-level" style="color:' + st.valColor + '">' + st.icon + ' ' + st.label + '</div>' +
+      '<div class="wbgt-row">' +
+        '<span class="wbgt-val" style="color:' + st.valColor + '">' + wbgt + '</span>' +
+        '<span class="wbgt-unit" style="color:' + st.labelColor + '">℃</span>' +
+      '</div>' +
+      '<div class="wbgt-sublabel" style="color:' + st.labelColor + '">WBGT（湿球黒球温度）</div>' +
+      '<div class="alert-action" style="color:' + st.valColor + '">' + st.action + '</div>' +
+      '<div class="updated" style="color:' + st.labelColor + '">最終更新: ' + l.updatedTime + '</div>' +
+    '</div>' +
+    '<div class="metrics-grid">' +
+      '<div class="metric-card"><div class="metric-label">気温</div><div class="metric-val">' + temp + '<span class="metric-unit">℃</span></div></div>' +
+      '<div class="metric-card"><div class="metric-label">湿度</div><div class="metric-val">' + humid + '<span class="metric-unit">%</span></div></div>' +
+      '<div class="metric-card"><div class="metric-label">日射強度</div><div class="metric-val">' + solar + '<span class="metric-unit">kW/m²</span></div></div>' +
+      '<div class="metric-card"><div class="metric-label">風速</div><div class="metric-val">' + wind + '<span class="metric-unit">m/s</span></div></div>' +
+    '</div>' +
+    '<div class="chart-card">' +
+      '<div class="chart-title">本日のWBGT推移</div>' +
+      '<div class="chart-date">' + (l.todayStr || '') + '</div>' +
+      '<div class="chart-wrap"><canvas id="wbgtChart"></canvas></div>' +
+    '</div>';
+
+  // グラフ描画
+  var labels   = data.todayPoints.map(function(p){ return p.time; });
+  var wbgtData = data.todayPoints.map(function(p){ return p.wbgt; });
+
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+  var ctx = document.getElementById('wbgtChart').getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: wbgtData,
+        borderColor: '#E24B4A',
+        backgroundColor: 'rgba(226,75,74,0.08)',
+        borderWidth: 2.5,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        fill: true,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { maxTicksLimit: 6, font:{size:11}, color:'#999' }, grid:{ color:'rgba(0,0,0,0.05)' } },
+        y: { min:15, max:40, ticks:{ stepSize:5, font:{size:11}, color:'#999', callback:function(v){return v+'℃';} }, grid:{ color:'rgba(0,0,0,0.05)' } }
+      }
+    }
+  });
+
+  // 警戒ライン描画
+  setTimeout(function(){
+    var yAxis = chartInstance.scales.y, xAxis = chartInstance.scales.x;
+    [{val:31,color:'#F09595'},{val:28,color:'#FAC775'},{val:25,color:'#97C459'}].forEach(function(l){
+      var yPx = yAxis.getPixelForValue(l.val);
+      ctx.save(); ctx.setLineDash([5,4]); ctx.strokeStyle=l.color; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.moveTo(xAxis.left,yPx); ctx.lineTo(xAxis.right,yPx); ctx.stroke(); ctx.restore();
+    });
+  }, 300);
+}
+
+function fetchData() {
+  fetch(GAS_API_URL)
+    .then(function(res){ return res.json(); })
+    .then(function(data){ renderData(data); })
+    .catch(function(err){
+      document.getElementById('mainContent').innerHTML =
+        '<div class="error-msg">通信エラーが発生しました。ネットワーク接続を確認してください。</div>';
+      console.error(err);
+    });
+}
+
+// 初回読み込み
+fetchData();
+
+// 5分ごとに自動更新
+setInterval(fetchData, RELOAD_MINUTES * 60 * 1000);
+</script>
+</body>
+</html>
