@@ -35,9 +35,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
 .level-guide-title{font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:8px}
 .level-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid #eee}
 .level-row:last-child{border-bottom:none;padding-bottom:0}
-.level-badge{font-size:13px;font-weight:500;padding:4px 8px;border-radius:6px;min-width:76px;text-align:center;white-space:nowrap}
+.level-badge{font-size:13px;font-weight:500;padding:4px 8px;border-radius:6px;text-align:left;white-space:nowrap}
 .level-range{font-size:14px;color:#555;flex:1}
-.level-action-text{font-size:12px;color:#888;text-align:right;white-space:nowrap}
+.level-action-text{font-size:12px;color:#888;text-align:left;white-space:nowrap}
 .footer{font-size:11px;color:#aaa;text-align:center;padding:6px 0 12px}
 .loading{text-align:center;padding:40px;color:#888;font-size:14px}
 .error-msg{background:#FCEBEB;border:0.5px solid #F09595;border-radius:10px;padding:14px 16px;margin-bottom:8px;font-size:13px;color:#A32D2D}
@@ -69,11 +69,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
 .h-sc{border-radius:8px;padding:8px 3px}
 .h-sc .sv{font-size:12px;font-weight:600}
 .h-sc .sl{font-size:10px;margin-top:2px}
-.sc1{background:#e6f4ea} .sc1 .sv{color:#2e7d32} .sc1 .sl{color:#388e3c}
-.sc2{background:#fff8e1} .sc2 .sv{color:#f57f17} .sc2 .sl{color:#f9a825}
-.sc3{background:#fff3e0} .sc3 .sv{color:#e65100} .sc3 .sl{color:#ef6c00}
-.sc4{background:#fbe9e7} .sc4 .sv{color:#bf360c} .sc4 .sl{color:#d84315}
-.sc5{background:#fce4ec} .sc5 .sv{color:#880e4f} .sc5 .sl{color:#ad1457}
+.sc1{background:#F1EFE8} .sc1 .sv{color:#5F5E5A} .sc1 .sl{color:#5F5E5A}
+.sc2{background:#EAF3DE} .sc2 .sv{color:#3B6D11} .sc2 .sl{color:#3B6D11}
+.sc3{background:#FAEEDA} .sc3 .sv{color:#633806} .sc3 .sl{color:#633806}
+.sc4{background:#FAECE7} .sc4 .sv{color:#993C1D} .sc4 .sl{color:#993C1D}
+.sc5{background:#FCEBEB} .sc5 .sv{color:#A32D2D} .sc5 .sl{color:#A32D2D}
 .h-diff{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0}
 .h-diff-cell{background:#f9fafb;border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.6}
 .h-diff-cell strong{font-weight:600;display:block;margin-bottom:3px;font-size:13px}
@@ -117,12 +117,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
     <div class="loading">データを取得中...</div>
   </div>
 
-  <div class="help-btn-wrap">
-    <button class="help-btn" onclick="document.getElementById('helpOverlay').classList.add('open')">
-      <span class="help-btn-icon">🌡️</span>WBGTとは？
-    </button>
-  </div>
-
   <div class="level-guide">
     <div class="level-guide-title">警戒レベルの目安</div>
     <div class="level-row">
@@ -152,7 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
     </div>
   </div>
 
-  <div class="footer">データ取得元:京都農場 気象センサー</div>
+  <div class="footer">データ取得元: 京都農場 気象センサー</div>
 
 </div>
 
@@ -212,7 +206,10 @@ function renderData(data) {
         '<span class="wbgt-val" style="color:' + st.valColor + '">' + wbgt + '</span>' +
         '<span class="wbgt-unit" style="color:' + st.labelColor + '">℃</span>' +
       '</div>' +
-      '<div class="wbgt-sublabel" style="color:' + st.labelColor + '">WBGT（湿球黒球温度）</div>' +
+      '<div class="wbgt-sublabel" style="color:' + st.labelColor + ';display:flex;align-items:center;gap:8px;">' +
+        '暑さ指数（WBGT）' +
+        '<button onclick="document.getElementById(\'helpOverlay\').classList.add(\'open\')" style="font-size:11px;color:' + st.labelColor + ';background:rgba(0,0,0,0.06);border:none;border-radius:5px;padding:2px 7px;cursor:pointer;font-family:inherit;white-space:nowrap;">WBGTとは？</button>' +
+      '</div>' +
       '<div class="alert-action" style="color:' + st.valColor + '">' + st.action + '</div>' +
       '<div class="updated" style="color:' + st.labelColor + '">最終更新: ' + l.updatedTime + '</div>' +
     '</div>' +
@@ -223,7 +220,7 @@ function renderData(data) {
       '<div class="metric-card"><div class="metric-label">風速</div><div class="metric-val">' + wind + '<span class="metric-unit">m/s</span></div></div>' +
     '</div>' +
     '<div class="chart-card">' +
-      '<div class="chart-title">本日のWBGT推移</div>' +
+      '<div class="chart-title">暑さ指数（WBGT）推移</div>' +
       '<div class="chart-date">' + (l.todayStr || '') + '</div>' +
       '<div class="chart-wrap"><canvas id="wbgtChart"></canvas></div>' +
     '</div>';
@@ -314,7 +311,7 @@ setInterval(fetchData, RELOAD_MINUTES * 60 * 1000);
 <div class="h-overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="WBGTヘルプ">
   <div class="h-modal">
     <div class="h-modal-header">
-      <span class="h-modal-title">🌡 熱中症警告システム ヘルプ</span>
+      <span class="h-modal-title">🌡️ 熱中症警告システム ヘルプ</span>
       <button class="h-close" onclick="document.getElementById('helpOverlay').classList.remove('open')" aria-label="閉じる">✕</button>
     </div>
     <div class="h-tabs">
@@ -332,13 +329,13 @@ setInterval(fetchData, RELOAD_MINUTES * 60 * 1000);
         温度計の気温だけでは分からない、<strong>湿度・日差し・風</strong>の影響をあわせて計算しているため、熱中症のリスクをより正確に把握できます。<br><br>
         この農場では設置されたセンサーが自動でWBGT値を計算し、危険度をリアルタイムでお知らせします。
       </div>
-      <p class="h-sec">数値の目安</p>
-      <div class="h-scale" style="margin-bottom:16px">
-        <div class="h-sc sc1"><div class="sv">〜25</div><div class="sl">ほぼ安全</div></div>
-        <div class="h-sc sc2"><div class="sv">25〜28</div><div class="sl">注意</div></div>
-        <div class="h-sc sc3"><div class="sv">28〜31</div><div class="sl">警戒</div></div>
-        <div class="h-sc sc4"><div class="sv">31〜35</div><div class="sl">厳重警戒</div></div>
-        <div class="h-sc sc5"><div class="sv">35〜</div><div class="sl">危険</div></div>
+      <p class="h-sec">数値の目安（環境省 運動に関する指針）</p>
+      <div class="h-scale" style="margin-bottom:16px;grid-template-columns:repeat(5,1fr)">
+        <div class="h-sc sc5"><div class="sv">31以上</div><div class="sl">危険</div></div>
+        <div class="h-sc sc4"><div class="sv">28〜31</div><div class="sl">厳重警戒</div></div>
+        <div class="h-sc sc3"><div class="sv">25〜28</div><div class="sl">警戒</div></div>
+        <div class="h-sc sc2"><div class="sv">21〜25</div><div class="sl">注意</div></div>
+        <div class="h-sc sc1"><div class="sv">21未満</div><div class="sl">ほぼ安全</div></div>
       </div>
       <p class="h-sec">気温との違い</p>
       <div class="h-diff">
@@ -349,11 +346,11 @@ setInterval(fetchData, RELOAD_MINUTES * 60 * 1000);
 
     <!-- Tab1: 警戒レベル -->
     <div class="h-body hidden" id="htab-1">
-      <div class="h-lv hr1"><div class="h-badge hb1">安全</div><div><div class="h-lv-name">ほぼ安全（WBGT 25未満）</div><div class="h-lv-range">通常の農作業が可能なレベル</div><div class="h-lv-action">通常どおり作業できます。こまめな水分補給を心がけましょう。</div></div></div>
-      <div class="h-lv hr2"><div class="h-badge hb2">注意</div><div><div class="h-lv-name">注意（WBGT 25〜28）</div><div class="h-lv-range">激しい運動や長時間の作業で熱中症リスクがある</div><div class="h-lv-action">30分に1回は水分補給を。作業の合間に日陰で5〜10分休憩しましょう。体調が少しでも悪ければ管理者に伝えてください。</div></div></div>
-      <div class="h-lv hr3"><div class="h-badge hb3">警戒</div><div><div class="h-lv-name">警戒（WBGT 28〜31）</div><div class="h-lv-range">熱中症の危険が高まっている</div><div class="h-lv-action">激しい作業はできる限り控えてください。20〜30分ごとに日陰で休憩し、単独作業は避けましょう。</div></div></div>
-      <div class="h-lv hr4"><div class="h-badge hb4">厳重</div><div><div class="h-lv-name">厳重警戒（WBGT 31〜35）</div><div class="h-lv-range">熱中症が起きやすい非常に危険な状態</div><div class="h-lv-action"><strong style="font-weight:600">屋外での激しい作業は原則中止。</strong>管理者の指示のもとで最小限の作業に留め、体調の異変を感じたらすぐに連絡してください。</div></div></div>
-      <div class="h-lv hr5"><div class="h-badge hb5">危険</div><div><div class="h-lv-name">危険（WBGT 35以上）</div><div class="h-lv-range">生命に関わる危険なレベル</div><div class="h-lv-action"><strong style="font-weight:600">屋外作業を中止し、直ちに涼しい場所へ。</strong>体調が悪い人を見かけたらすぐに管理者・救急へ連絡してください。</div></div></div>
+      <div class="h-lv hr1"><div class="h-badge hb1">安全</div><div><div class="h-lv-name">ほぼ安全（WBGT 21未満）</div><div class="h-lv-range">通常の農作業が可能なレベル</div><div class="h-lv-action">通常どおり作業できます。こまめな水分補給を心がけましょう。</div></div></div>
+      <div class="h-lv hr2"><div class="h-badge hb2">注意</div><div><div class="h-lv-name">注意（WBGT 21〜25）</div><div class="h-lv-range">強い作業で熱中症リスクがある</div><div class="h-lv-action">水分・塩分を定期的に補給しましょう。体調が少しでも悪ければ管理者に伝えてください。</div></div></div>
+      <div class="h-lv hr3"><div class="h-badge hb3">警戒</div><div><div class="h-lv-name">警戒（WBGT 25〜28）</div><div class="h-lv-range">中等度以上の作業で熱中症の危険がある</div><div class="h-lv-action">積極的に休憩を取り、水分・塩分を補給しましょう。激しい作業は30分おきに休憩を。</div></div></div>
+      <div class="h-lv hr4"><div class="h-badge hb4">厳重</div><div><div class="h-lv-name">厳重警戒（WBGT 28〜31）</div><div class="h-lv-range">熱中症が起きやすい非常に危険な状態</div><div class="h-lv-action"><strong style="font-weight:600">激しい作業は原則中止。</strong>10〜20分おきに休憩をとり水分・塩分を補給してください。体調の異変を感じたらすぐに管理者へ連絡してください。</div></div></div>
+      <div class="h-lv hr5"><div class="h-badge hb5">危険</div><div><div class="h-lv-name">危険（WBGT 31以上）</div><div class="h-lv-range">生命に関わる危険なレベル</div><div class="h-lv-action"><strong style="font-weight:600">屋外作業を中止し、直ちに涼しい場所へ。</strong>体調が悪い人を見かけたらすぐに管理者・救急へ連絡してください。</div></div></div>
     </div>
 
     <!-- Tab2: 予防のコツ -->
