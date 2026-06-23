@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>AIC京都ファーム　熱中症警戒</title>
+<title>京都農場　熱中症警戒</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -107,10 +107,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
 
   <div class="header">
     <div>
-      <div class="header-title">AIC京都ファーム　熱中症警戒</div>
+      <div class="header-title">京都農場　熱中症警戒</div>
       <div class="header-sub" id="headerSub">読み込み中...</div>
     </div>
-    <span style="font-size:24px">$D83C$DF3E</span>
+    <span style="font-size:24px">🌾</span>
   </div>
 
   <div id="mainContent">
@@ -119,40 +119,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
 
   <div class="help-btn-wrap">
     <button class="help-btn" onclick="document.getElementById('helpOverlay').classList.add('open')">
-      <span class="help-btn-icon">$D83C$DF21$FE0F</span>WBGTとは？
+      <span class="help-btn-icon">🌡️</span>WBGTとは？
     </button>
   </div>
 
   <div class="level-guide">
     <div class="level-guide-title">警戒レベルの目安</div>
     <div class="level-row">
-      <span class="level-badge" style="background:#FCEBEB;color:#A32D2D">$D83D$DD34 危険</span>
+      <span class="level-badge" style="background:#FCEBEB;color:#A32D2D">🔴 危険</span>
       <span class="level-range">31℃ 以上</span>
       <span class="level-action-text">作業中止</span>
     </div>
     <div class="level-row">
-      <span class="level-badge" style="background:#FAECE7;color:#993C1D">$D83D$DFE0 厳重警戒</span>
-      <span class="level-range">28$301C31℃</span>
+      <span class="level-badge" style="background:#FAECE7;color:#993C1D">🟠 厳重警戒</span>
+      <span class="level-range">28〜31℃</span>
       <span class="level-action-text">激しい作業禁止</span>
     </div>
     <div class="level-row">
-      <span class="level-badge" style="background:#FAEEDA;color:#633806">$D83D$DFE1 警戒</span>
-      <span class="level-range">25$301C28℃</span>
+      <span class="level-badge" style="background:#FAEEDA;color:#633806">🟡 警戒</span>
+      <span class="level-range">25〜28℃</span>
       <span class="level-action-text">積極的に休憩</span>
     </div>
     <div class="level-row">
-      <span class="level-badge" style="background:#EAF3DE;color:#3B6D11">$D83D$DFE2 注意</span>
-      <span class="level-range">21$301C25℃</span>
+      <span class="level-badge" style="background:#EAF3DE;color:#3B6D11">🟢 注意</span>
+      <span class="level-range">21〜25℃</span>
       <span class="level-action-text">水分補給を</span>
     </div>
     <div class="level-row">
-      <span class="level-badge" style="background:#F1EFE8;color:#5F5E5A">$26AA ほぼ安全</span>
+      <span class="level-badge" style="background:#F1EFE8;color:#5F5E5A">⚪ ほぼ安全</span>
       <span class="level-range">21℃ 未満</span>
       <span class="level-action-text">通常作業可</span>
     </div>
   </div>
 
-  <div class="footer">データ取得元: AIC京都ファーム 気象センサー</div>
+  <div class="footer">データ取得元:京都農場 気象センサー</div>
 
 </div>
 
@@ -160,16 +160,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku
 // ============================================================
 // ★ここにGASのデプロイURLを設定してください
 // ============================================================
-var GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyp1mk75INW_ShjO_0_-DEaeqZj6_hHfrdLPTz5W5_bvr4qnZlU4FJO1PcRl7BlZdyUwA/exec';
+var GAS_API_URL = 'YOUR_GAS_DEPLOY_URL';
 
 var RELOAD_MINUTES = 5;
 
 var LEVEL_STYLE = {
-  danger:  { bg:'#FCEBEB', border:'#F09595', labelColor:'#A32D2D', valColor:'#501313', icon:'$D83D$DD34', label:'危険',     action:'作業を中止し、涼しい場所へ' },
-  severe:  { bg:'#FAECE7', border:'#F0997B', labelColor:'#993C1D', valColor:'#4A1B0C', icon:'$D83D$DFE0', label:'厳重警戒', action:'激しい作業は中止。こまめに休憩を' },
-  caution: { bg:'#FAEEDA', border:'#EF9F27', labelColor:'#633806', valColor:'#412402', icon:'$D83D$DFE1', label:'警戒',     action:'積極的に休憩し、水分補給を' },
-  watch:   { bg:'#EAF3DE', border:'#97C459', labelColor:'#3B6D11', valColor:'#173404', icon:'$D83D$DFE2', label:'注意',     action:'水分・塩分を定期的に補給' },
-  safe:    { bg:'#F1EFE8', border:'#D3D1C7', labelColor:'#5F5E5A', valColor:'#2C2C2A', icon:'$26AA', label:'ほぼ安全',  action:'通常の作業が可能' },
+  danger:  { bg:'#FCEBEB', border:'#F09595', labelColor:'#A32D2D', valColor:'#501313', icon:'🔴', label:'危険',     action:'作業を中止し、涼しい場所へ' },
+  severe:  { bg:'#FAECE7', border:'#F0997B', labelColor:'#993C1D', valColor:'#4A1B0C', icon:'🟠', label:'厳重警戒', action:'激しい作業は中止。こまめに休憩を' },
+  caution: { bg:'#FAEEDA', border:'#EF9F27', labelColor:'#633806', valColor:'#412402', icon:'🟡', label:'警戒',     action:'積極的に休憩し、水分補給を' },
+  watch:   { bg:'#EAF3DE', border:'#97C459', labelColor:'#3B6D11', valColor:'#173404', icon:'🟢', label:'注意',     action:'水分・塩分を定期的に補給' },
+  safe:    { bg:'#F1EFE8', border:'#D3D1C7', labelColor:'#5F5E5A', valColor:'#2C2C2A', icon:'⚪', label:'ほぼ安全',  action:'通常の作業が可能' },
 };
 
 function levelToKey(str) {
@@ -219,7 +219,7 @@ function renderData(data) {
     '<div class="metrics-grid">' +
       '<div class="metric-card"><div class="metric-label">気温</div><div class="metric-val">' + temp + '<span class="metric-unit">℃</span></div></div>' +
       '<div class="metric-card"><div class="metric-label">湿度</div><div class="metric-val">' + humid + '<span class="metric-unit">%</span></div></div>' +
-      '<div class="metric-card"><div class="metric-label">日射強度</div><div class="metric-val">' + solar + '<span class="metric-unit">kW/m$00B2</span></div></div>' +
+      '<div class="metric-card"><div class="metric-label">日射強度</div><div class="metric-val">' + solar + '<span class="metric-unit">kW/m²</span></div></div>' +
       '<div class="metric-card"><div class="metric-label">風速</div><div class="metric-val">' + wind + '<span class="metric-unit">m/s</span></div></div>' +
     '</div>' +
     '<div class="chart-card">' +
@@ -314,8 +314,8 @@ setInterval(fetchData, RELOAD_MINUTES * 60 * 1000);
 <div class="h-overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="WBGTヘルプ">
   <div class="h-modal">
     <div class="h-modal-header">
-      <span class="h-modal-title">$D83C$DF21 熱中症警告システム ヘルプ</span>
-      <button class="h-close" onclick="document.getElementById('helpOverlay').classList.remove('open')" aria-label="閉じる">$2715</button>
+      <span class="h-modal-title">🌡 熱中症警告システム ヘルプ</span>
+      <button class="h-close" onclick="document.getElementById('helpOverlay').classList.remove('open')" aria-label="閉じる">✕</button>
     </div>
     <div class="h-tabs">
       <button class="h-tab active" onclick="hTab(0)">WBGTとは</button>
@@ -334,11 +334,11 @@ setInterval(fetchData, RELOAD_MINUTES * 60 * 1000);
       </div>
       <p class="h-sec">数値の目安</p>
       <div class="h-scale" style="margin-bottom:16px">
-        <div class="h-sc sc1"><div class="sv">$301C25</div><div class="sl">ほぼ安全</div></div>
-        <div class="h-sc sc2"><div class="sv">25$301C28</div><div class="sl">注意</div></div>
-        <div class="h-sc sc3"><div class="sv">28$301C31</div><div class="sl">警戒</div></div>
-        <div class="h-sc sc4"><div class="sv">31$301C35</div><div class="sl">厳重警戒</div></div>
-        <div class="h-sc sc5"><div class="sv">35$301C</div><div class="sl">危険</div></div>
+        <div class="h-sc sc1"><div class="sv">〜25</div><div class="sl">ほぼ安全</div></div>
+        <div class="h-sc sc2"><div class="sv">25〜28</div><div class="sl">注意</div></div>
+        <div class="h-sc sc3"><div class="sv">28〜31</div><div class="sl">警戒</div></div>
+        <div class="h-sc sc4"><div class="sv">31〜35</div><div class="sl">厳重警戒</div></div>
+        <div class="h-sc sc5"><div class="sv">35〜</div><div class="sl">危険</div></div>
       </div>
       <p class="h-sec">気温との違い</p>
       <div class="h-diff">
@@ -350,20 +350,20 @@ setInterval(fetchData, RELOAD_MINUTES * 60 * 1000);
     <!-- Tab1: 警戒レベル -->
     <div class="h-body hidden" id="htab-1">
       <div class="h-lv hr1"><div class="h-badge hb1">安全</div><div><div class="h-lv-name">ほぼ安全（WBGT 25未満）</div><div class="h-lv-range">通常の農作業が可能なレベル</div><div class="h-lv-action">通常どおり作業できます。こまめな水分補給を心がけましょう。</div></div></div>
-      <div class="h-lv hr2"><div class="h-badge hb2">注意</div><div><div class="h-lv-name">注意（WBGT 25$301C28）</div><div class="h-lv-range">激しい運動や長時間の作業で熱中症リスクがある</div><div class="h-lv-action">30分に1回は水分補給を。作業の合間に日陰で5$301C10分休憩しましょう。体調が少しでも悪ければ管理者に伝えてください。</div></div></div>
-      <div class="h-lv hr3"><div class="h-badge hb3">警戒</div><div><div class="h-lv-name">警戒（WBGT 28$301C31）</div><div class="h-lv-range">熱中症の危険が高まっている</div><div class="h-lv-action">激しい作業はできる限り控えてください。20$301C30分ごとに日陰で休憩し、単独作業は避けましょう。</div></div></div>
-      <div class="h-lv hr4"><div class="h-badge hb4">厳重</div><div><div class="h-lv-name">厳重警戒（WBGT 31$301C35）</div><div class="h-lv-range">熱中症が起きやすい非常に危険な状態</div><div class="h-lv-action"><strong style="font-weight:600">屋外での激しい作業は原則中止。</strong>管理者の指示のもとで最小限の作業に留め、体調の異変を感じたらすぐに連絡してください。</div></div></div>
+      <div class="h-lv hr2"><div class="h-badge hb2">注意</div><div><div class="h-lv-name">注意（WBGT 25〜28）</div><div class="h-lv-range">激しい運動や長時間の作業で熱中症リスクがある</div><div class="h-lv-action">30分に1回は水分補給を。作業の合間に日陰で5〜10分休憩しましょう。体調が少しでも悪ければ管理者に伝えてください。</div></div></div>
+      <div class="h-lv hr3"><div class="h-badge hb3">警戒</div><div><div class="h-lv-name">警戒（WBGT 28〜31）</div><div class="h-lv-range">熱中症の危険が高まっている</div><div class="h-lv-action">激しい作業はできる限り控えてください。20〜30分ごとに日陰で休憩し、単独作業は避けましょう。</div></div></div>
+      <div class="h-lv hr4"><div class="h-badge hb4">厳重</div><div><div class="h-lv-name">厳重警戒（WBGT 31〜35）</div><div class="h-lv-range">熱中症が起きやすい非常に危険な状態</div><div class="h-lv-action"><strong style="font-weight:600">屋外での激しい作業は原則中止。</strong>管理者の指示のもとで最小限の作業に留め、体調の異変を感じたらすぐに連絡してください。</div></div></div>
       <div class="h-lv hr5"><div class="h-badge hb5">危険</div><div><div class="h-lv-name">危険（WBGT 35以上）</div><div class="h-lv-range">生命に関わる危険なレベル</div><div class="h-lv-action"><strong style="font-weight:600">屋外作業を中止し、直ちに涼しい場所へ。</strong>体調が悪い人を見かけたらすぐに管理者・救急へ連絡してください。</div></div></div>
     </div>
 
     <!-- Tab2: 予防のコツ -->
     <div class="h-body hidden" id="htab-2">
-      <div class="h-tip"><span class="h-tip-ic">$D83D$DCA7</span><div class="h-tip-txt"><strong>のどが渇く前に水分補給</strong>のどの渇きを感じた時点ですでに脱水が始まっています。20$301C30分おきにコップ1杯を目安に飲みましょう。</div></div>
-      <div class="h-tip"><span class="h-tip-ic">$D83E$DDE2</span><div class="h-tip-txt"><strong>帽子と通気性のよい服装</strong>直射日光を避けるために帽子は必須です。吸汗速乾素材の服は日焼けと熱中症の両方を防ぎます。</div></div>
-      <div class="h-tip"><span class="h-tip-ic">$D83D$DD59</span><div class="h-tip-txt"><strong>暑い時間帯の作業を避ける</strong>WBGTが高くなりやすい10時$301C15時はできるだけ屋内作業にあてましょう。</div></div>
-      <div class="h-tip"><span class="h-tip-ic">$D83D$DC65</span><div class="h-tip-txt"><strong>お互いの体調を確認しあう</strong>熱中症は本人が気づきにくいことがあります。顔色・発汗・ふらつきに気をつけましょう。</div></div>
-      <div class="h-tip"><span class="h-tip-ic">$D83D$DECF</span><div class="h-tip-txt"><strong>前日の睡眠と朝食を大切に</strong>睡眠不足や朝食抜きは熱中症リスクを高めます。規則正しい生活を心がけましょう。</div></div>
-      <div class="h-tip"><span class="h-tip-ic">$26A0$FE0F</span><div class="h-tip-txt"><strong>熱中症の初期症状に気づいたら</strong>めまい・立ちくらみ・大量の汗・頭痛・吐き気を感じたら、すぐに作業を止めて日陰で休み、管理者へ連絡してください。</div></div>
+      <div class="h-tip"><span class="h-tip-ic">💧</span><div class="h-tip-txt"><strong>のどが渇く前に水分補給</strong>のどの渇きを感じた時点ですでに脱水が始まっています。20〜30分おきにコップ1杯を目安に飲みましょう。</div></div>
+      <div class="h-tip"><span class="h-tip-ic">🧢</span><div class="h-tip-txt"><strong>帽子と通気性のよい服装</strong>直射日光を避けるために帽子は必須です。吸汗速乾素材の服は日焼けと熱中症の両方を防ぎます。</div></div>
+      <div class="h-tip"><span class="h-tip-ic">🕙</span><div class="h-tip-txt"><strong>暑い時間帯の作業を避ける</strong>WBGTが高くなりやすい10時〜15時はできるだけ屋内作業にあてましょう。</div></div>
+      <div class="h-tip"><span class="h-tip-ic">👥</span><div class="h-tip-txt"><strong>お互いの体調を確認しあう</strong>熱中症は本人が気づきにくいことがあります。顔色・発汗・ふらつきに気をつけましょう。</div></div>
+      <div class="h-tip"><span class="h-tip-ic">🛏</span><div class="h-tip-txt"><strong>前日の睡眠と朝食を大切に</strong>睡眠不足や朝食抜きは熱中症リスクを高めます。規則正しい生活を心がけましょう。</div></div>
+      <div class="h-tip"><span class="h-tip-ic">⚠️</span><div class="h-tip-txt"><strong>熱中症の初期症状に気づいたら</strong>めまい・立ちくらみ・大量の汗・頭痛・吐き気を感じたら、すぐに作業を止めて日陰で休み、管理者へ連絡してください。</div></div>
     </div>
 
     <!-- Tab3: FAQ -->
